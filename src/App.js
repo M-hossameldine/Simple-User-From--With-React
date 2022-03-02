@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import UserDataList from './components/User/UserDataList/UserDataList';
-import UserForm from './components/User/UserForm/UserForm';
+import UserDataList from './components/Users/UserDataList/UserDataList';
+import UserForm from './components/Users/AddUsersForm/AddUsersForm';
+import Card from './components/UI/Card/Card';
+
+import styles from './App.module.css';
 
 const INITIAL_USERLIST = [
   {
@@ -32,12 +35,8 @@ function App() {
 
   return (
     <div>
-      <section id='users-from'>
-        <UserForm onAddUser={addUserHandler} />
-      </section>
-      <section id='users'>
-        <UserDataList users={userList} />
-      </section>
+      <UserForm onAddUser={addUserHandler} />
+      <UserDataList users={userList} />
     </div>
   );
 }
