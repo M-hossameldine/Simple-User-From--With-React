@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
 import styles from './AddUsersForm.module.css';
 
@@ -7,27 +7,31 @@ import Card from '../../UI/Card/Card';
 import ErrorModal from '../../UI/ErrorModal/ErrorModal';
 
 export default function UserForm(props) {
-  const [enteredUsername, setEnteredUsername] = useState('');
-  const [enteredAge, setEnteredAge] = useState('');
+  const usernameInputRef = useRef();
+  const ageInputRef = useRef();
+  // const [enteredUsername, setEnteredUsername] = useState('');
+  // const [enteredAge, setEnteredAge] = useState('');
   const [isNameValid, setIsNameValid] = useState(true);
   const [isAgeValid, setIsAgeValid] = useState(true);
   const [error, setError] = useState();
 
-  const usernameChangeHandler = (e) => {
-    setEnteredUsername(e.target.value);
-    setIsNameValid(true);
-  };
+  // const usernameChangeHandler = (e) => {
+  //   setEnteredUsername(e.target.value);
+  //   setIsNameValid(true);
+  // };
 
-  const userAgeChangeHandler = (e) => {
-    setEnteredAge(e.target.value);
-    setIsAgeValid(true);
-  };
+  // const userAgeChangeHandler = (e) => {
+  //   setEnteredAge(e.target.value);
+  //   setIsAgeValid(true);
+  // };
 
   const formSubmitHandler = (e) => {
     e.preventDefault();
+    const nameValue = usernameInputRef.current.value;
+    const ageValue = ageInputRef.current.value;
 
-    if (enteredUsername.trim().length === 0 || enteredAge.trim().length === 0) {
-      enteredUsername.trim().length === 0
+    if (nameValue.trim().length === 0 || ageValue.trim().length === 0) {
+      nameValue.trim().length === 0
         ? setIsNameValid(false)
         : setIsAgeValid(false);
       setError({
@@ -37,7 +41,7 @@ export default function UserForm(props) {
       return;
     }
 
-    if (+enteredAge < 1) {
+    if (+ageValue < 1) {
       setIsAgeValid(false);
       setError({
         title: 'Invalid Age',
@@ -47,16 +51,16 @@ export default function UserForm(props) {
     }
 
     const newUserData = {
-      name: enteredUsername,
-      age: enteredAge,
+      name: nameValue,
+      age: ageValue,
     };
 
     // Update user list
     props.onAddUser(newUserData);
 
     // reset form inputs after adding user successfully
-    setEnteredUsername('');
-    setEnteredAge('');
+    usernameInputRef.current.value = '';
+    ageInputRef.current.value = '';
   };
 
   const errorHandler = () => {
@@ -74,32 +78,14 @@ export default function UserForm(props) {
       <Card className={styles['users-form']}>
         <form onSubmit={formSubmitHandler}>
           <div className={styles['form-controls']}>
-            <div
-              className={`${styles['form-control']} ${
-                !isNameValid && styles.invalid
-              }`}
-            >
+            <div className={`${styles['form-control']}`}>
               <label htmlFor='username'> Username </label>
-              <input
-                id='username'
-                type='text'
-                value={enteredUsername}
-                onChange={usernameChangeHandler}
-              />
+              <input id='username' type='text' ref={usernameInputRef} />
             </div>
 
-            <div
-              className={`${styles['form-control']} ${
-                !isAgeValid && styles.invalid
-              }`}
-            >
+            <div className={`${styles['form-control']}`}>
               <label htmlFor='age'> Age (Years) </label>
-              <input
-                id='age'
-                type='number'
-                value={enteredAge}
-                onChange={userAgeChangeHandler}
-              />
+              <input id='age' type='number' ref={ageInputRef} />
             </div>
           </div>
           <div className={styles['form-actions']}>
