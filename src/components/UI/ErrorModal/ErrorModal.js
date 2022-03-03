@@ -6,7 +6,7 @@ import Card from '../Card/Card';
 import Button from '../Button/Button';
 const ErrorModal = (props) => {
   return (
-    <div>
+    <>
       <div className={styles.backdrop} onClick={props.onConfirm} />
       <Card className={styles.modal}>
         <div className={styles.header}>
@@ -19,7 +19,7 @@ const ErrorModal = (props) => {
           <Button onClick={props.onConfirm}>Okay</Button>
         </div>
       </Card>
-    </div>
+    </>
   );
 };
 

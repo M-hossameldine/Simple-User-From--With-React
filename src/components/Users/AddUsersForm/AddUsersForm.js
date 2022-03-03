@@ -63,7 +63,7 @@ export default function UserForm(props) {
     setError(null);
   };
   return (
-    <div>
+    <>
       {error && (
         <ErrorModal
           title={error.title}
@@ -107,6 +107,6 @@ export default function UserForm(props) {
           </div>
         </form>
       </Card>
-    </div>
+    </>
   );
 }
